@@ -1,0 +1,30 @@
+{
+  "name": "optic_map",
+  "version": "1.0.0",
+  "description": "Interactive map of network equipment.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "client": "npm start --prefix optic-map",
+    "dev": "concurrently \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/konstfo/optic_map.git"
+  },
+  "author": "Konstantin Fomin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/konstfo/optic_map/issues"
+  },
+  "homepage": "https://github.com/konstfo/optic_map#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.2.0",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}

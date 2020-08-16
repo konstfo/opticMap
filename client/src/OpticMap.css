@@ -1,0 +1,253 @@
+textarea {
+  resize: none;
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 100%;
+  display: block;
+}
+.opticMapComponent {
+  display: inline-flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.leftMapPanel {
+  text-align: center;
+  width: 18%;
+  min-width: 208px;
+  bottom: 0px;
+  background-color: lightgray;
+  border: 2px solid;
+  border-color: gray;
+  border-radius: 5px;
+  margin: 0 2% 0 0;
+}
+.rightMapPanel {
+  width: 18%;
+  min-width: 208px;
+  bottom: 0px;
+  background-color: lightgray;
+  border: 2px solid;
+  border-color: gray;
+  border-radius: 5px;
+  margin: 0 0 0 2%;
+  overflow-y: auto;
+}
+
+.mapContainer,
+.ol-viewport {
+  position: relative;
+  width: 60%;
+  height: 720px;
+}
+
+/* map controls */
+.ol-rotate {
+  display: none;
+}
+.ol-zoom {
+  display: inline-flex;
+  height: 1.2rem;
+}
+.ol-viewport {
+  display: inline;
+}
+
+.ol-attribution {
+  position: absolute;
+  float: right;
+  bottom: 0;
+}
+
+.ol-attribution ul {
+  margin: 0;
+  padding: 0;
+}
+
+.ol-attribution ul li,
+.ol-attribution ul li a {
+  list-style: none;
+  padding: 0 0.3rem 0 0;
+  background-color: rgba(255, 255, 255, 0.445);
+  border-radius: 0.2rem;
+}
+.ol-attribution button {
+  display: none;
+}
+/* map controls */
+
+/* coordinate field */
+.coordinateString {
+  display: inline-block;
+  text-decoration: none;
+  border-radius: 3px;
+  background-color: whitesmoke;
+  margin-top: 0.2rem;
+  width: 90%;
+  overflow: hidden;
+
+  word-wrap: break-word;
+  /* text-overflow: ellipsis; */
+}
+/* coordinate field */
+.objectButtons,
+.formContainer {
+  display: inline-flex;
+  flex-direction: column;
+  background-color: whitesmoke;
+  border-radius: 3px;
+  margin-top: 0.4rem;
+  width: 90%;
+  overflow: hidden;
+}
+
+.objectButton,
+.addFeatureButton,
+.editForm,
+.addForm {
+  margin: 0.2rem;
+  padding: 0.2rem;
+  background-color: lightsteelblue;
+}
+.objectButton {
+  float: left;
+  width: 70%;
+  overflow: hidden;
+}
+.addFeatureButton {
+  float: right;
+}
+.objectButton:hover,
+.addFeatureButton:hover {
+  transition: 0.4s;
+  background-color: lightcyan;
+}
+.featureInfo,
+.editForm textarea,
+.addForm textarea {
+  display: inline-flex;
+  flex-direction: column;
+  background-color: whitesmoke;
+  border-radius: 3px;
+  margin-top: 0.4rem;
+  width: 90%;
+}
+
+.featureInfoElement {
+  padding: 0.2rem;
+  margin: 0.2rem;
+  background-color: lightblue;
+  word-wrap: break-word;
+  white-space: pre-line;
+}
+
+textarea {
+  overflow-y: scroll;
+  resize: none;
+}
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+.editButton {
+  padding: 0.2rem;
+  margin: 0.2rem;
+  background-color: lightsteelblue;
+  word-wrap: break-word;
+  white-space: pre-line;
+}
+.editButton:hover {
+  transition: 0.4s;
+  background-color: lightcyan;
+}
+
+.hidden,
+.ol-zoom {
+  display: none;
+}
+.displayedFeature {
+  list-style: none;
+  align-items: center;
+  margin: 0.2rem;
+  padding: 0.2rem;
+  background-color: lightsteelblue;
+}
+.displayedFeature:hover {
+  transition: 0.4s;
+  background-color: lightcyan;
+}
+
+.addFeatureButton {
+  display: flex;
+  float: right;
+}
+
+.displayedFeature,
+.addFeatureButton,
+.editButton,
+.featureInfoElement,
+.objectButton,
+.clientStations-visible,
+.switches-visible,
+.optics-visible,
+.formContainer,
+.formField {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.1rem;
+}
+.editForm textarea,
+.addForm textarea {
+  font-size: 0.95rem;
+}
+
+.clientStations-visible button,
+.optics-visible button,
+.switches-visible button,
+.ol-control button {
+  font-size: 1rem;
+  border-radius: 4px;
+  width: 8rem;
+  background-color: lightsteelblue;
+}
+.clientStations-visible button:hover,
+.optics-visible button:hover,
+.switches-visible button:hover,
+.ol-control button:hover {
+  transition: 0.8s;
+  background-color: lightcyan;
+}
+@media (max-width: 800px) {
+  .opticMapComponent {
+    min-width: 340px;
+    display: inline-flex;
+    flex-direction: column;
+  }
+  .mapContainer,
+  .ol-viewport {
+    width: 100%;
+    height: calc(100vh / 2);
+  }
+  .leftMapPanel {
+    display: block;
+    float: left;
+    margin-top: 0px;
+    margin-bottom: 0.08rem;
+    max-height: calc(100vh / 4.4);
+    height: calc(100vh / 4.1);
+    width: 100%;
+    position: relative;
+    overflow: scroll;
+  }
+  .rightMapPanel {
+    display: block;
+    float: left;
+    margin-left: 0px;
+    margin-top: 0.08rem;
+    height: calc(100vh / 4.4);
+    max-height: calc(100vh / 4.4);
+    width: 100%;
+    position: relative;
+    overflow: scroll;
+  }
+}
