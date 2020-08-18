@@ -128,11 +128,15 @@ function deleteItem(path, item_) {
     var itemList = JSON.parse(data);
 
     itemList.map((obj) => {
+      console.log("coordinates obj:", obj.coordinates);
+      console.log("coordinates item:", item_.coordinates);
+
       if (
         obj.address.trim() === item_.address.trim() &&
         obj.ipAddress.trim() === item_.ipAddress.trim() &&
         obj.info.trim() === item_.info.trim() &&
-        obj.locationInfo.trim() === item_.locationInfo.trim()
+        obj.locationInfo.trim() === item_.locationInfo.trim() &&
+        JSON.stringify(obj.coordinates) === JSON.stringify(item_.coordinates)
       ) {
         itemList.splice(itemList.indexOf(obj), 1);
         console.log("Element deleted:", obj);

@@ -1,12 +1,1 @@
-[
-  {
-    "address": "Rakvere 32-Rakvere73",
-    "locationInfo": "fqwfqwf",
-    "ipAddress": "asaf",
-    "info": "qwfqwfqwf",
-    "coordinates": [
-      ["28.185584", "59.383749"],
-      ["28.184711", "59.384145"]
-    ]
-  }
-]
+[{"address":"Rakvere 32-Rakvere 34","locationInfo":"roof-roof","ipAddress":"","info":"Rakvere 32-Rakvere 34 colors used:\ngreen\nbrown\norange\nblue","coordinates":[["28.185815","59.383672"],["28.184991","59.383411"]]},{"address":"Rakvere 36-Rakvere 38","locationInfo":"roof-roof","ipAddress":"","info":"connected switches\nout: \nRakvere 38 5th roof\nRakvere 40 2nd basement","coordinates":[["28.184332","59.383129"],["28.183469","59.382901"]]},{"address":"Rakvere 38 2nd - Rakvere 38 5th","locationInfo":"basement-basement","ipAddress":"","info":"connected switches:\nRakvere 38 2nd - Rakvere 38 5th","coordinates":[["28.183468","59.382901"],["28.182961","59.383055"]]},{"address":"Rakvere 38-Rakvere 40","locationInfo":"basement-basement","ipAddress":"","info":"connected switches","coordinates":[["28.183464","59.382902"],["28.182642","59.382655"]]},{"address":"Rakvere 38 5th - Rakvere 85 2nd","locationInfo":"basement-basement","ipAddress":"124.123.12.3 Rakvere 38 5th\n123.456.789.10 Rakvere 85 2nd","info":"connected on August 19, 2020","coordinates":[["28.182953","59.383058"],["28.182762","59.383568"]]},{"address":"Rakvere 85 2nd - Rakvere 85 5th","locationInfo":"basement-basement","ipAddress":"123.456.789.10 Rakvere 85 2nd\n8.800.555.3535 Rakvere 85 5th","info":"connected on August 19, 2020","coordinates":[["28.182752","59.383568"],["28.183668","59.383799"]]},{"address":"Rakvere 85 5th - Rakvere 87 5th","locationInfo":"basement-basement","ipAddress":"Rakvere 85 8.800.555.3535\nRakvere 87 09.87.65.43.32","info":"connected on August 20, 2020","coordinates":[["28.183673","59.383795"],["28.183213","59.384203"]]},{"address":"Rakvere 34-Rakvere 36","locationInfo":"basement-basement","ipAddress":"no ips","info":"connected on August 20, 2020","coordinates":[["28.185011","59.383421"],["28.184330","59.383130"]]}]

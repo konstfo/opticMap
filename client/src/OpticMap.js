@@ -26,6 +26,7 @@ class OpticMap extends Component {
     this.state = {
       map: null,
       coordinates: "coordinates",
+      errMessage: null,
       currentForm: null,
       formItemType: null,
       displayedFeatures: null,
@@ -82,6 +83,10 @@ class OpticMap extends Component {
     this.editClientStationInfo = this.editClientStationInfo.bind(this);
 
     this.areFieldsValid = this.areFieldsValid.bind(this);
+
+    this.convertCoordinatesForFetching = this.convertCoordinatesForFetching.bind(
+      this
+    );
   }
 
   //
@@ -453,7 +458,6 @@ class OpticMap extends Component {
           pointOfClick.pixel,
           function (feature) {
             this.setState({
-              currentForm: null,
               featureInfo: {
                 featureCoordinates: feature.getProperties().featureCoordinates,
                 address: feature.getProperties().address,
@@ -474,11 +478,6 @@ class OpticMap extends Component {
 
     // change features size on zoom change
     map.getView().on("propertychange", (e) => {
-      // switch (e.key) {
-      //   case "resolution":
-      //     this.handleZoom(map.getView().getZoom());
-      //     break;
-      // }
       if (e.key === "resolution") {
         this.handleZoom(map.getView().getZoom());
       }
@@ -510,13 +509,6 @@ class OpticMap extends Component {
   }
 
   handleRightPanelItemClick(item) {
-    if (this.state.currentForm != null) {
-      this.setState({
-        currentForm: null,
-        formItemType: null,
-      });
-    }
-
     let coordinatesForAnimation;
     let featureCoordinates = item.getProperties().featureCoordinates;
 
@@ -688,6 +680,7 @@ class OpticMap extends Component {
       }
       this.setState({
         currentForm: null,
+        errMessage: null,
         displayedFeatures: null,
         featureInfo: {
           featureCoordinates: null,
@@ -700,20 +693,51 @@ class OpticMap extends Component {
     }
   };
 
-  handleDeleteButton = () => {
+  convertCoordinatesForFetching(coordinatesToConvert) {
+    let coordinatesString = coordinatesToConvert;
+
+    let coordinatesArray = coordinatesString.split(",");
+
+    let arrayLength = coordinatesArray.length;
+
+    let opticsCoordinates = [];
+
+    if (arrayLength % 2 !== 0 || arrayLength === 0) {
+      this.setState({
+        errMessage: "Mistake in coordinates field.",
+      });
+      return [];
+    } else {
+      if (arrayLength <= 2) {
+        return coordinatesArray;
+      } else {
+        this.setState({ errMessage: null });
+        let i = 0;
+        while (i < arrayLength) {
+          opticsCoordinates.push(
+            new Array(coordinatesArray[i], coordinatesArray[i + 1])
+          );
+          i++;
+          i++;
+        }
+        return opticsCoordinates;
+      }
+    }
+  }
+
+  handleDeleteButton() {
+    console.log(this.refs.coordinateFormField.value);
     let itemToDelete = {
       address: this.refs.addressFormField.value,
       locationInfo: this.refs.locationInfoFormField.value,
       ipAddress: this.refs.ipAddressFormField.value,
       info: this.refs.infoFormField.value,
+      coordinates: this.convertCoordinatesForFetching(
+        this.refs.coordinateFormField.value
+      ),
     };
 
-    this.deleteOptics({
-      address: this.refs.addressFormField.value,
-      locationInfo: this.refs.locationInfoFormField.value,
-      ipAddress: this.refs.ipAddressFormField.value,
-      info: this.refs.infoFormField.value,
-    });
+    this.deleteOptics(itemToDelete);
     this.deleteSwitch(itemToDelete);
     this.deleteClientStation(itemToDelete);
 
@@ -727,27 +751,31 @@ class OpticMap extends Component {
         locationInfo: null,
       },
     });
-  };
+  }
 
   areFieldsValid(item) {
     let coordinatesArray = item.coordinates.split(",");
+    let areAllValuesAccepted = true;
     coordinatesArray.map((coordinate) => {
       if (!Number.isFinite(Number(coordinate))) {
-        console.log("Wrong coordinates format.");
-        return false;
+        this.setState({ errMessage: "Wrong coordinates format." });
+        areAllValuesAccepted = false;
       }
     });
-    if (
-      item.address.trim() === "" ||
-      item.locationInfo.trim() === "" ||
-      item.info.trim() === ""
-    ) {
-      console.log("Only ip address field can be empty.");
-      return false;
-    } else {
-      console.log("Values accepted!");
-      return true;
+    if (areAllValuesAccepted) {
+      if (
+        item.address.trim() === "" ||
+        item.locationInfo.trim() === "" ||
+        item.info.trim() === ""
+      ) {
+        this.setState({ errMessage: "Only ip address field can be empty." });
+        areAllValuesAccepted = false;
+      } else {
+        this.setState({ errMessage: null });
+        areAllValuesAccepted = true;
+      }
     }
+    return areAllValuesAccepted;
   }
 
   handleAddSubmit = () => {
@@ -774,8 +802,15 @@ class OpticMap extends Component {
               info: this.refs.infoFormField.value,
               coordinates: this.refs.coordinateFormField.value.split(","),
             });
+
+            this.setState({
+              currentForm: null,
+              errMessage: null,
+            });
           } else {
-            console.log("Wrong coordinates for switch.");
+            this.setState({
+              errMessage: "Wrong coordinates",
+            });
           }
 
           break;
@@ -791,8 +826,15 @@ class OpticMap extends Component {
               info: this.refs.infoFormField.value,
               coordinates: this.refs.coordinateFormField.value.split(","),
             });
+
+            this.setState({
+              currentForm: null,
+              errMessage: null,
+            });
           } else {
-            console.log("Wrong coordinates for client station.");
+            this.setState({
+              errMessage: "Wrong coordinates.",
+            });
           }
           break;
         case "opticCable":
@@ -802,11 +844,16 @@ class OpticMap extends Component {
           );
           let arrayLenght = formCoordinatesArray.length;
           if (arrayLenght % 2 !== 0 || arrayLenght === 0) {
-            console.log("Wrong optics coordinates.");
+            this.setState({
+              errMessage: "Need more points to build optic cable.",
+            });
           } else {
             if (arrayLenght <= 2) {
-              console.log("need more points.");
+              this.setState({
+                errMessage: "Need more points to build optic cable.",
+              });
             } else {
+              this.setState({ errMessage: null });
               let i = 0;
               while (i < arrayLenght) {
                 opticsCoordinates.push(
@@ -825,6 +872,11 @@ class OpticMap extends Component {
                 info: this.refs.infoFormField.value,
                 coordinates: opticsCoordinates,
               });
+
+              this.setState({
+                currentForm: null,
+                errMessage: null,
+              });
             }
           }
 
@@ -832,10 +884,6 @@ class OpticMap extends Component {
         default:
           console.log("Default case");
       }
-
-      this.setState({
-        currentForm: null,
-      });
     }
   };
 
@@ -896,7 +944,9 @@ class OpticMap extends Component {
               </button>
               <button
                 type="button"
-                onClick={() => this.setState({ currentForm: null })}
+                onClick={() =>
+                  this.setState({ currentForm: null, errMessage: null })
+                }
               >
                 Cancel
               </button>
@@ -947,6 +997,7 @@ class OpticMap extends Component {
                   this.handleDeleteButton();
                   this.setState({
                     currentForm: null,
+                    errMessage: null,
                   });
                 }}
               >
@@ -957,7 +1008,9 @@ class OpticMap extends Component {
               </button>
               <button
                 type="button"
-                onClick={() => this.setState({ currentForm: null })}
+                onClick={() =>
+                  this.setState({ currentForm: null, errMessage: null })
+                }
               >
                 Cancel
               </button>
@@ -1028,6 +1081,7 @@ class OpticMap extends Component {
           </div>
           {this.getfeatureInfoBlock()}
           {this.getEditingOrAddingForm()}
+          <div className="err">{this.state.errMessage}</div>
         </div>
         <div className="mapContainer" ref="mapContainer"></div>
         <div className="rightMapPanel">
